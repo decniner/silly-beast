@@ -10,3 +10,5 @@
 
 @media(max-width:800px) and (min-height:561px){.finishes{flex:0 0 144px;min-width:144px}.launch{flex:1;min-width:0}.finishes .options button{min-width:44px}}
 .modalcard input:not([type=checkbox]){display:block;width:100%;margin:12px 0;padding:12px;border:1px solid #91a680;background:#1c2e23;border-radius:6px;color:#f2eddf;font-size:12px}
+
+#ghostStatus{position:absolute;top:97px;left:12px;font-size:11px;letter-spacing:.2px;color:#f7d394;background:#27382de8;padding:10px 14px;border:1px solid #dfbc763d;border-radius:7px;max-width:80%}@media(max-width:800px){#ghostStatus{top:91px;font-size:10px;left:5px;padding:9px 12px}}@media(max-height:560px){#ghostStatus{top:76px;font-size:9px;padding:7px 11px}}

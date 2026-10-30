@@ -6,7 +6,7 @@ A browser-based invention game: choose a creature body, movement style and finis
 
 https://decniner.github.io/silly-beast/
 
-Choose your parts and a course, then select **Let’s play**. Tap **JUMP** or press **Space** / **Arrow Up** to jump. Press **P** to pause. The optional jump coach highlights the clearance window. Progress stays in the current browser.
+Choose your parts and a course, then select **Let’s play**. Tap **JUMP** or press **Space** / **Arrow Up** to jump. Press **P** to pause. The optional jump coach highlights the clearance window. After finishing a run, race the translucent ghost of your personal best with the same creature and movement style. Turn it off in **Settings**. Progress and ghost runs stay in the current browser.
 
 ## Run locally
 

@@ -1,0 +1,16 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';
+import {ghostKey,makeGhost,readGhosts,saveGhosts,saveBestGhost,ghostAt} from '../ghosts.mjs';
+import {createRun,tickRun,FIXED_STEP} from '../session.mjs';
+const run=(body=0,move=0,course=0)=>{let s=createRun(body,move,course);const frames=[s];while(!s.finished){s=tickRun(s,FIXED_STEP,false);frames.push(s)}return frames};
+const frames=run();const store=(value=null)=>({getItem:()=>value,setItem:(k,v)=>value=v});
+test('completed run creates bounded samples including finish',()=>{const g=makeGhost(frames);assert.ok(g);assert.ok(g.points.length<=1200);assert.equal(g.points.at(-1)[0],g.duration);assert.equal(g.points[0][0],0);assert.equal(g.body,0);assert.equal(g.move,0)});
+test('unfinished run is never saved',()=>assert.equal(makeGhost(frames.slice(0,100)),null));
+test('keys separate course and movement but not cosmetic paint',()=>{assert.notEqual(ghostKey(0,0,0),ghostKey(0,0,1));assert.notEqual(ghostKey(0,0,0),ghostKey(1,0,0));assert.equal(ghostKey(0,0,0),'0:0:0')});
+test('slower run cannot replace a better ghost',()=>{const g=makeGhost(frames),first=saveBestGhost({},g);const slower={...g,duration:g.duration+1,points:g.points.map(p=>[p[0]*(g.duration+1)/g.duration,p[1],p[2]])};const next=saveBestGhost(first,slower);assert.equal(next[ghostKey(0,0,0)].duration,g.duration)});
+test('faster ghost replaces prior best',()=>{const g=makeGhost(frames),slow={...g,duration:g.duration+1,points:g.points.map(p=>[p[0]*(g.duration+1)/g.duration,p[1],p[2]])};assert.equal(saveBestGhost(saveBestGhost({},slow),g)[ghostKey(0,0,0)].duration,g.duration)});
+test('interpolation gives continuous motion and holds the finish',()=>{const g=makeGhost(frames),mid=ghostAt(g,.025);assert.ok(mid.dist>=0);assert.ok(mid.height>=0);assert.deepEqual(ghostAt(g,999),{dist:g.points.at(-1)[1],height:g.points.at(-1)[2],elapsed:g.duration});assert.equal(ghostAt(null,0),null)});
+test('valid ghosts round trip',()=>{const mem=store();const all=saveBestGhost({},makeGhost(frames));assert.ok(saveGhosts(mem,all));assert.deepEqual(readGhosts(mem),all)});
+test('corrupt or denied storage recovers safely',()=>{assert.deepEqual(readGhosts(store('{bad')),{});assert.deepEqual(readGhosts({getItem(){throw Error()}}),{});assert.equal(saveGhosts({setItem(){throw Error()}},{}),false)});
+test('invalid trajectories cannot reach renderer',()=>{const g=makeGhost(frames);for(const mutate of [v=>v.body=99,v=>v.course=99,v=>v.duration=-1,v=>v.points[1][0]=-1,v=>v.points[1][1]=Infinity,v=>v.points[1][2]=999,v=>v.points.pop(),v=>v.points=Array(1201).fill([0,0,0])]){const bad=structuredClone(g);mutate(bad);assert.deepEqual(readGhosts(store(JSON.stringify({version:1,records:{[ghostKey(0,0,0)]:bad}}))),{})}});
+test('bounded storage retains at most twelve build ghosts',()=>{let all={};for(let c=0;c<6;c++)for(let b=0;b<3;b++)all=saveBestGhost(all,makeGhost(run(b,0,c)));assert.equal(Object.keys(all).length,12);assert.ok(all[ghostKey(5,2,0)])});
+test('mismatched record key cannot impersonate another build',()=>{const g=makeGhost(frames);assert.deepEqual(readGhosts(store(JSON.stringify({version:1,records:{'0:1:0':g}}))),{})});
