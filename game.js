@@ -5,7 +5,7 @@ import {createRun,tickRun,recordFrame,replayAt,stepBuffered,jumpWindow,FIXED_STE
 import {readProgress,saveProgress,recordResult} from './progress.mjs';
 import {ghostKey,makeGhost,readGhosts,saveGhosts,saveBestGhost,ghostAt} from './ghosts.mjs';
 import {utcDate,validChallengeDate,dailyChallenge,readDailyRecords,saveDailyRecords,recordDailyResult} from './daily.mjs';
-import {readAudioSettings,createAudioEngine} from './audio.mjs';
+import {readAudioSettings,createAudioEngine} from './audio.mjs?v=1.3';
 import {RGBELoader} from './RGBELoader.js';
 const $=s=>document.querySelector(s);const scene=new T.Scene();scene.background=new T.Color('#747969');scene.fog=new T.Fog('#747969',30,100);let renderer;
 try{renderer=new T.WebGLRenderer({antialias:true,powerPreference:'high-performance'});}catch(e){$('#fatal').hidden=false;$('#loading').hidden=true;throw e;}
