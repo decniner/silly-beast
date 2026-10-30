@@ -73,5 +73,5 @@
 
 - [x] Inspect the full diff and check for accidental unrelated changes.
 - [x] Run all tests and the local browser QA flow (keyboard lanes, pickups, power-up, finish, wallet and daily run).
-- [ ] Push the feature branch to `main` following the established GitHub Pages release flow.
-- [ ] Verify the deployed URL serves the matching asset version and playable game.
+- [x] Push the feature branch to `main` following the established GitHub Pages release flow.
+- [x] Verify the deployed URL serves the matching asset version and playable game.
