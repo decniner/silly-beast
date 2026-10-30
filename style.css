@@ -17,3 +17,4 @@
 @media(max-width:800px){.dailyIcon{font-size:20px}.dailyDetails{padding:14px 0;margin:12px 0}.dailyDetails b{font-size:14px}.dailyDetails span{font-size:12px}}
 
 .volumeLabel{display:flex;justify-content:space-between;margin:18px 0 7px}.volumeLabel output{color:#e9bc7c;letter-spacing:0}.soundRange{display:block;width:100%;height:30px;margin:0 0 12px;accent-color:#e7b879;cursor:pointer}.coachSetting:has(#ambienceToggle){margin-bottom:8px}
+#settingsPanel .volumeLabel{margin:10px 0 4px}#settingsPanel .soundRange{margin-bottom:2px}#settingsPanel .coachSetting{margin-top:10px;min-height:36px}#settingsPanel .privacy{font-size:11px!important;line-height:1.4;margin:8px 0}#settingsPanel .modalcard button{margin-top:6px}
