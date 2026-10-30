@@ -1,0 +1,8 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';import {advance,jumpFor,replayIndexAt,obstacles} from '../physics.mjs';
+const initial=()=>({dist:0,height:0,vy:0,cooldown:0,bumps:0,jumps:0});
+for(let body=0;body<3;body++)for(let move=0;move<3;move++)test(`body ${body}, movement ${move}: finishes, counts each obstacle once, stable ground`,()=>{let s=initial();for(let i=0;i<2400&&s.dist<62;i++)s=advance(s,1/60,body,move);assert.ok(s.dist>=62);assert.equal(s.bumps,4);assert.ok(s.height>=0);assert.ok(Number.isFinite(s.vy))});
+for(let move=0;move<3;move++)test(`movement ${move}: jump clears tallest obstacle and lands`,()=>{let s=initial(),peak=0;s=advance(s,1/120,0,move,true);for(let i=0;i<180;i++){s=advance(s,1/120,0,move);peak=Math.max(peak,s.height)}assert.ok(peak>1.25,`peak ${peak}`);assert.equal(s.height,0);assert.equal(s.jumps,1)});
+test('frame-rate variation preserves finish time within tolerance',()=>{function run(dt){let s=initial(),t=0;while(s.dist<62){s=advance(s,dt,0,0);t+=dt}return t}assert.ok(Math.abs(run(1/30)-run(1/120))<.2)});
+test('replay chooses timestamp instead of assuming 60fps',()=>{const h=[{time:0},{time:.01},{time:.07},{time:.2}];assert.equal(replayIndexAt(h,.08),2);assert.equal(replayIndexAt(h,.19,2),2);assert.equal(replayIndexAt(h,.3,2),3)});
+test('mid-air jump cannot reset velocity',()=>{const s={...initial(),height:1,vy:2};const a=advance(s,.01,0,0,true),b=advance(s,.01,0,0,false);assert.deepEqual(a,b)});
+test('properly timed jumps can complete course without bumps',()=>{let s=initial();for(let i=0;i<2400&&s.dist<62;i++){const next=obstacles.find(o=>-o.z-1.4>s.dist);const jump=!!next&&(-next.z-1.4-s.dist)<2.7&&s.height===0;s=advance(s,1/120,0,1,jump)}assert.ok(s.dist>=62);assert.equal(s.bumps,0)});
