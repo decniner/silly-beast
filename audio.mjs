@@ -21,6 +21,10 @@ export function soundRecipe(event,detail={}){
     case 'countdown':{const n=Number.isInteger(detail.value)?clamp(detail.value,1,3):3;return [voice('sine',350+n*48,.15,.06,null,1800,0,.18),voice('triangle',700+n*60,.12,.023,null,3200,.008,.22)]}
     case 'go':return [voice('sine',660,.32,.065,990,2600,0,.42),voice('triangle',990,.38,.035,1320,4000,.045,.48)];
     case 'jump':return [voice('triangle',[145,175,205][move],.32,.075,[520,710,590][move],1700,0,.48),voice('sine',[430,520,610][move],.25,.038,[860,1040,1220][move],3000,.018,.52)];
+    case 'coin':return [voice('sine',880,.12,.05,1320,3600,0,.42),voice('triangle',1320,.09,.025,null,4200,.035,.36)];
+    case 'bonus':return [voice('triangle',660,.24,.055,880,3000,0,.46),voice('sine',990,.28,.045,1480,4200,.08,.58),voice('sine',1480,.32,.035,null,5000,.16,.62)];
+    case 'powerup':{const base=detail.kind==='shield'?520:detail.kind==='magnet'?690:820;return [voice('triangle',base,.2,.05,base*1.32,3200,0,.42),voice('sine',base*1.5,.24,.035,base*2,4500,.07,.52)]}
+    case 'lane':return [voice('triangle',detail.direction<0?370:420,.06,.022,null,1600,0,.12)];
     case 'bump':return [voice('noise',120,.18,.075,null,420,0,.2),voice('sine',105,.24,.065,62,260,0,.12),voice('triangle',310,.11,.025,170,700,.018,.15)];
     case 'finish':{const stars=Number.isInteger(detail.stars)?clamp(detail.stars,1,3):1;const notes=stars===3?[523,659,784,1047]:stars===2?[440,554,659]:[392,494];return notes.map((n,i)=>voice(i===notes.length-1?'sine':'triangle',n,.5,.055,n*1.08,3600,i*.105,.65))}
     case 'roll':{

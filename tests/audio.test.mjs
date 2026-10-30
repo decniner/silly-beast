@@ -19,7 +19,7 @@ test('audio preferences use gentle defaults, clamp volume and recover from stora
 });
 
 test('sound recipes cover player actions with bounded gain and duration',()=>{
- const events=[['tap',{}],['select',{variant:2}],['countdown',{value:3}],['go',{}],['jump',{movement:1}],['bump',{}],['finish',{stars:3}],['roll',{movement:2}]];
+ const events=[['tap',{}],['select',{variant:2}],['countdown',{value:3}],['go',{}],['jump',{movement:1}],['bump',{}],['finish',{stars:3}],['roll',{movement:2}],['coin',{}],['bonus',{}],['powerup',{kind:'magnet'}],['lane',{}]];
  for(const [event,detail] of events){const recipe=soundRecipe(event,detail);assert.ok(recipe.length>0,event);for(const voice of recipe){assert.ok(voice.gain>0&&voice.gain<=.12,`${event} gain`);assert.ok(voice.duration>0&&voice.duration<=1.2,`${event} duration`);assert.ok(voice.frequency>=55&&voice.frequency<=4000,`${event} frequency`)}}
  assert.deepEqual(soundRecipe('missing'),[]);
  assert.notDeepEqual(soundRecipe('roll',{movement:0}),soundRecipe('roll',{movement:2}));
