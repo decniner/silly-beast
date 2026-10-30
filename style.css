@@ -12,3 +12,6 @@
 .modalcard input:not([type=checkbox]){display:block;width:100%;margin:12px 0;padding:12px;border:1px solid #91a680;background:#1c2e23;border-radius:6px;color:#f2eddf;font-size:12px}
 
 #ghostStatus{position:absolute;top:97px;left:12px;font-size:11px;letter-spacing:.2px;color:#f7d394;background:#27382de8;padding:10px 14px;border:1px solid #dfbc763d;border-radius:7px;max-width:80%}@media(max-width:800px){#ghostStatus{top:91px;font-size:10px;left:5px;padding:9px 12px}}@media(max-height:560px){#ghostStatus{top:76px;font-size:9px;padding:7px 11px}}
+
+.dailyIcon{color:#f4c174;background:#473c2877;font-size:22px}.dailyDetails{display:flex;flex-direction:column;gap:8px;padding:17px 0;margin:16px 0;border-block:1px solid #ffffff20}.dailyDetails b{font-size:16px;font-weight:500;color:#f0c681}.dailyDetails span{font-size:13px;color:#c6d2bf}.dailyRecord{font-size:12px!important;color:#d2c39d!important}.modalActions #dailyShare,.modalActions #closeDaily{background:#415542;color:#fff}
+@media(max-width:800px){.dailyIcon{font-size:20px}.dailyDetails{padding:14px 0;margin:12px 0}.dailyDetails b{font-size:14px}.dailyDetails span{font-size:12px}}
